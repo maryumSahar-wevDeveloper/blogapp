@@ -1,17 +1,17 @@
 import conf from "../../conf/conf.js"
 import { Client, Account, ID } from "appwrite";
 
-
-
 export class AuthService {
-    Client = new Client();
+    client = new Client();
     account;
 
     constructor() {
-        this.Client
-         .setEndpoint(conf.appwriteUrl)
-         .setProject(conf.appwriteProjectId);
-       this.account = new Account(this.Client);
+
+        this.client
+        .setEndpoint(conf.appwriteURl) 
+        .setProject(conf.appwriteProjectId) 
+
+       this.account = new Account(this.client);
      
     }
     // =====Create User Account
@@ -19,11 +19,11 @@ export class AuthService {
 
         try {
 
-            const userAccount = await this.account.create(ID.unique(), email,password,name);
+            const userAccount = await this.account.create(ID.unique(), email, password, name);
             if(userAccount)
             {
                 //return userAccount;
-                return this.login({email, password});
+                return this.login({ email, password });
             }
             else{
                 return userAccount;
@@ -35,35 +35,31 @@ export class AuthService {
 
     }
      //====== user Login 
-    async login({email, password}){
+     async login({email, password}) {
         try {
-           return await this.account.createEmailPasswordSession(email, password);
+            return await this.account.createEmailSession(email, password);
         } catch (error) {
             throw error;
         }
     }
     // ======Check Current User Status
+ 
+
     async getCurrentUser() {
-        try {
-            if (this.account) {
-                 const user = await account.get();
-            //return await this.account.get();
-            } else {
-           
-            console.error("Account instance not initialized");
-            return null;
+           try {
+            return await this.account.get();
+          } catch (error) {
+            console.log("Appwrite serive :: getCurrentUser :: error", error);
             }
-           return await this.account.get();
-           
-        } catch (error) {
-            throw error;
-        }
+
         return null;
     }
+
+
     // =====LogOut
     async logout(){
         try {
-            return await this.account.deleteSesstions()
+            return await this.account.deleteSesstions('current')
         } catch (error) {
             throw error;
         }
