@@ -4,13 +4,13 @@ import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Route, Link } from "react-router-dom";
 import { AuthLayout, Login as LoginComponent } from "./components/index.js";
 import {
   Home,
   Login,
   Signup,
-  AllPost,
+  AllPosts,
   EditPost,
   Post,
   AddPost,
@@ -40,38 +40,7 @@ const router = createBrowserRouter([
             <Signup />
           </AuthLayout>
         ),
-      },
-      {
-        path: "/all-posts",
-        element: (
-          <AuthLayout authentication>
-            {" "}
-            <AllPosts />
-          </AuthLayout>
-        ),
-      },
-      {
-        path: "/add-post",
-        element: (
-          <AuthLayout authentication>
-            {" "}
-            <AddPost />
-          </AuthLayout>
-        ),
-      },
-      {
-        path: "/edit-post/:slug",
-        element: (
-          <AuthLayout authentication>
-            {" "}
-            <EditPost />
-          </AuthLayout>
-        ),
-      },
-      {
-        path: "/post/:slug",
-        element: <Post />,
-      },
+      }
     ],
   },
 ]);
